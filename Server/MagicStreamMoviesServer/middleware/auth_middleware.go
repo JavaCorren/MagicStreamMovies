@@ -11,6 +11,13 @@ import (
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
+		origin := c.GetHeader("Origin")
+		if origin != "" {
+			c.Header("Access-Control-Allow-Origin", origin)
+			c.Header("Vary", "Origin")
+			c.Header("Access-Control-Allow-Credentials", "true")
+		}
+
 		for _, cookie := range c.Request.Cookies() {
 			log.Println("Received Cookie:", cookie.Name, cookie.Value)
 		}
