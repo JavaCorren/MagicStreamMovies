@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -70,6 +69,6 @@ func main() {
 	routes.SetupProtectedRoutes(router, client)
 
 	if err := router.Run(":8080"); err != nil {
-		fmt.Println("Failed to start server", err)
+		log.Println("Failed to start server", err)
 	}
 }
