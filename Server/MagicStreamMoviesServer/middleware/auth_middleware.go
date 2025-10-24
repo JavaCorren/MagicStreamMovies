@@ -10,6 +10,7 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		log.Println("🔥 AuthMiddleware Executed:", c.Request.Method, c.FullPath(), "Origin:", c.GetHeader("Origin"))
 
 		origin := c.GetHeader("Origin")
 		if origin != "" {

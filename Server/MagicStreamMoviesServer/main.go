@@ -41,6 +41,12 @@ func main() {
 		log.Println("Allowed origin: http://localhost:5173")
 	}
 
+	router.Use(func(c *gin.Context) {
+		log.Println("✅ Global Middleware Start:", c.Request.Method, c.Request.URL.Path)
+		c.Next()
+		log.Println("✅ Global Middleware End:", c.Request.Method, c.Request.URL.Path, "Headers:", c.Writer.Header())
+	})
+
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     origins,
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
