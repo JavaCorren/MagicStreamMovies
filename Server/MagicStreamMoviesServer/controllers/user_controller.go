@@ -124,6 +124,7 @@ func LoginUser(client *mongo.Client) gin.HandlerFunc {
 			Secure:   true,
 			HttpOnly: true,
 			SameSite: http.SameSiteNoneMode,
+			Domain:   "magicstreammovies-ntm6.onrender.com",
 		})
 
 		http.SetCookie(c.Writer, &http.Cookie{
@@ -134,6 +135,7 @@ func LoginUser(client *mongo.Client) gin.HandlerFunc {
 			Secure:   true,
 			HttpOnly: true,
 			SameSite: http.SameSiteNoneMode,
+			Domain:   "magicstreammovies-ntm6.onrender.com",
 		})
 
 		c.JSON(http.StatusOK, models.UserResponse{
