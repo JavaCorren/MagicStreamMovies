@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/JavaCorren/MagicStreamMovies/Server/MagicStreamMoviesServer/utils"
@@ -9,6 +10,10 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		for _, cookie := range c.Request.Cookies() {
+			fmt.Println("Received Cookie:", cookie.Name, cookie.Value)
+		}
 
 		if c.Request.Method == http.MethodOptions {
 			c.AbortWithStatus(http.StatusNoContent)
