@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"net/http"
+
 	controller "github.com/JavaCorren/MagicStreamMovies/Server/MagicStreamMoviesServer/controllers"
 	"github.com/JavaCorren/MagicStreamMovies/Server/MagicStreamMoviesServer/middleware"
 	"github.com/gin-gonic/gin"
@@ -9,7 +11,12 @@ import (
 
 func SetupProtectedRoutes(router *gin.Engine, client *mongo.Client) {
 
-	router.Use(middleware.AuthMiddleware())
+	protected := router.Group("/")
+	protected.Use(middleware.AuthMiddleware())
+
+	protected.OPTIONS("/*path", func(c *gin.Context) {
+		c.Status(http.StatusNoContent)
+	})
 	router.GET("/movie/:imdb_id", controller.GetMovie(client))
 	router.POST("/addmovie", controller.AddMovie(client))
 	router.GET("/recommendedmovies", controller.GetRecommendedMovies(client))
