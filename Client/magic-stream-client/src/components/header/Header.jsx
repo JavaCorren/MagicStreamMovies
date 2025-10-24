@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
-import NavBar from 'react-bootstrap/NavBar'
+import NavBar from 'react-bootstrap/Navbar'
 import {useNavigate, NavLink} from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import axiosClient from '../../api/axiosConfig'
