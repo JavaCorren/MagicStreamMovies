@@ -56,13 +56,13 @@ func main() {
 	client := database.Connect()
 
 	if err := client.Ping(context.Background(), nil); err != nil {
-		log.Fatalf("Failed to reach mongodb server: %v", err)
+		log.Println("Failed to reach mongodb server: ", err)
 	}
 
 	defer func() {
 		err := client.Disconnect(context.Background())
 		if err != nil {
-			log.Fatalf("Failed to disconnect from mongodb server: %v", err)
+			log.Println("Failed to disconnect from mongodb server: ", err)
 		}
 	}()
 

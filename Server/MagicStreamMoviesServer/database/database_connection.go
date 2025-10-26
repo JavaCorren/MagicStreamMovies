@@ -19,7 +19,7 @@ func Connect() *mongo.Client {
 	MongoDbUri := os.Getenv("MONGODB_URI")
 
 	if MongoDbUri == "" {
-		log.Fatal("MongoDB_URI not set!")
+		log.Println("MongoDB_URI not set!")
 	}
 	fmt.Println("MongoDB URI: ", MongoDbUri)
 
