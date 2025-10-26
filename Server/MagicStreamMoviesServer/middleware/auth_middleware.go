@@ -10,22 +10,34 @@ import (
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
+		if c.Request.Method == http.MethodOptions {
+			c.AbortWithStatus(http.StatusNoContent)
+			return
+		}
+
+		writeAuthError := func(msg string) {
+			origin := c.GetHeader("Origin")
+			if origin != "" {
+				c.Header("Access-Control-Allow-Origin", origin)
+				c.Header("Access-Control-Allow-Credentials", "true")
+			}
+			c.JSON(http.StatusUnauthorized, gin.H{"error": msg})
+			c.Abort()
+		}
+
 		token, err := utils.GetAccessToken(c)
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-			c.Abort()
+			writeAuthError(err.Error())
 			return
 		}
 		if token == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "No token is provided"})
-			c.Abort()
+			writeAuthError("No token is provided")
 			return
 		}
 		claims, err := utils.ValidateNormalToken(token)
 
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
-			c.Abort()
+			writeAuthError(err.Error())
 			return
 		}
 
