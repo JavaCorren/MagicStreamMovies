@@ -3,7 +3,6 @@ package controllers
 import (
 	"context"
 	"errors"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -190,10 +189,7 @@ func GetReviewRanking(admin_review string, client *mongo.Client, c *gin.Context)
 
 	sentimentDelimited = strings.Trim(sentimentDelimited, ",")
 
-	err = godotenv.Load(".env")
-	if err != nil {
-		log.Println("Warning: .env file not found")
-	}
+	_ = godotenv.Load(".env")
 
 	OpenAiApiKey := os.Getenv("OPENAI_API_KEY")
 	if OpenAiApiKey == "" {
@@ -266,10 +262,7 @@ func GetRecommendedMovies(client *mongo.Client) gin.HandlerFunc {
 			return
 		}
 
-		err = godotenv.Load(".env")
-		if err != nil {
-			log.Fatal("Warning: .env file not found")
-		}
+		_ = godotenv.Load(".env")
 
 		var recommendMoviesCount int64
 
