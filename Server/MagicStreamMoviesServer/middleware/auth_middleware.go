@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/JavaCorren/MagicStreamMovies/Server/MagicStreamMoviesServer/utils"
@@ -10,18 +9,6 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		log.Println("🔥 AuthMiddleware Executed:", c.Request.Method, c.FullPath(), "Origin:", c.GetHeader("Origin"))
-
-		origin := c.GetHeader("Origin")
-		if origin != "" {
-			c.Header("Access-Control-Allow-Origin", origin)
-			c.Header("Vary", "Origin")
-			c.Header("Access-Control-Allow-Credentials", "true")
-		}
-
-		for _, cookie := range c.Request.Cookies() {
-			log.Println("Received Cookie:", cookie.Name, cookie.Value)
-		}
 
 		if c.Request.Method == http.MethodOptions {
 			c.AbortWithStatus(http.StatusNoContent)
