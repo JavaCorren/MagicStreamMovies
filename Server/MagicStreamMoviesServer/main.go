@@ -25,7 +25,7 @@ func main() {
 
 	err := godotenv.Load(".env")
 	if err != nil {
-		log.Println("Warning: err while loading .env file")
+		log.Println("Warning: err while loading .env file: ", err)
 	}
 
 	allowedOrigins := os.Getenv("ALLOWED_ORIGINS")
