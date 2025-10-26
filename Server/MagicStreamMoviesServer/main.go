@@ -23,10 +23,7 @@ func main() {
 		ctx.String(200, "Hello, MagicStreamMovies")
 	})
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Println("Warning: err while loading .env file: ", err)
-	}
+	_ = godotenv.Load(".env")
 
 	allowedOrigins := os.Getenv("ALLOWED_ORIGINS")
 
@@ -51,7 +48,15 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	router.Use(gin.Logger())
+	router.Use(func(c *gin.Context) {
+		log.Println("🌐 Incoming Request:", c.Request.Method, c.Request.URL.Path)
+		log.Println("🔶 Origin:", c.Request.Header.Get("Origin"))
+		log.Println("🔶 Headers:", c.Request.Header)
+		c.Next()
+		log.Println("🔷 Response Headers:", c.Writer.Header())
+	})
+
+	router.Use(gin.Logger(), gin.Recovery())
 
 	client := database.Connect()
 
